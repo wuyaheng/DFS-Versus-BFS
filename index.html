@@ -240,6 +240,29 @@ class Solution:
       dfs(root, 0)
       return self.ans
 </pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/binary-tree-paths/" target="_blank">https://leetcode.com/problems/binary-tree-paths/</a></p>
+<pre>
+class Solution:
+  def binaryTreePaths(self, root: Optional[TreeNode]) -> List[str]:
+      ans = []
+
+      def dfs(node, temp):
+          if node is None:
+              return []
+
+          if node.left == None and node.right == None:
+              return ans.append(temp + str(node.val))
+
+          temp += str(node.val) + "->"
+
+          dfs(node.left, temp)  
+          dfs(node.right, temp)
+
+      dfs(root, "")
+
+      return ans
+</pre>
   
 </div>
       </div>
