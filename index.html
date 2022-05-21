@@ -263,6 +263,30 @@ class Solution:
 
       return ans
 </pre>
+
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/smallest-string-starting-from-leaf/" target="_blank">https://leetcode.com/problems/smallest-string-starting-from-leaf/</a></p>
+<pre>
+class Solution:
+  def smallestFromLeaf(self, root: Optional[TreeNode]) -> str:
+      self.ans = 'z' + chr(1)
+        
+      def dfs(node, s):
+          if node == None:
+              return
+            
+          s += chr(ord('a') + node.val)
+            
+          if node.left == None and node.right == None:
+              self.ans = min(self.ans, s[::-1])
+                      
+          dfs(node.left, s)
+          dfs(node.right, s) 
+          s = s[:-1]      
+        
+      dfs(root, "")
+      return self.ans
+</pre>
   
 </div>
       </div>
