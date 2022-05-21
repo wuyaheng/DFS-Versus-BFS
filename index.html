@@ -211,6 +211,35 @@ class Solution:
       return ans
 </pre>
 
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/path-sum-iii/" target="_blank">https://leetcode.com/problems/path-sum-iii/</a></p>
+<pre>
+class Solution:
+  def pathSum(self, root: Optional[TreeNode], targetSum: int) -> int:
+      self.ans = 0
+      lookup = {}
+
+      def dfs(node, curSum):
+          if node == None:
+              return
+            
+          curSum += node.val
+            
+          if curSum == targetSum:
+              self.ans += 1
+            
+          if curSum - targetSum in lookup:
+              self.ans += lookup[curSum - targetSum]
+                
+          lookup[curSum] = lookup.get(curSum, 0) + 1
+            
+          dfs(node.left, curSum)
+          dfs(node.right, curSum)
+            
+          lookup[curSum] -= 1
+            
+      dfs(root, 0)
+      return self.ans
+</pre>
   
 </div>
       </div>
