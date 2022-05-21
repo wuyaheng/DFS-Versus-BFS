@@ -168,33 +168,23 @@ pre span {
         
           <p>Below is a list of practice problems from Leetcode about DFS and BFS. Practicing these problems will help you better understand how DFS and BFS works.</p>
 
-          <p class="text-center text-muted"><a href="https://leetcode.com/problems/binary-tree-preorder-traversal/" target="_blank">https://leetcode.com/problems/binary-tree-preorder-traversal/</a></p>
+          <p class="text-center text-muted"><a href="https://leetcode.com/problems/sum-root-to-leaf-numbers/" target="_blank">https://leetcode.com/problems/sum-root-to-leaf-numbers/</a></p>
 <pre>
 class Solution:
-  def preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
-      ans = []
-      stack = [root]
-      
-      if root is None:
-          return ans
-      
-      while stack:
-          cur = stack.pop()
-
-          if cur != None:
-              if (cur.right != None):
-                  stack.append(cur.right)
-                  
-              if (cur.left != None):
-                  stack.append(cur.left)
-                  
-              stack.append(cur)
-              stack.append(None)
-              
-          else:
-              ans.append(stack.pop().val)
-              
-      return ans
+  def sumNumbers(self, root: Optional[TreeNode]) -> int:
+        
+      def dfs(node, num):
+          if node is None:
+              return 0
+            
+          num = num * 10 + node.val
+            
+          if node.left == None and node.right == None:
+              return num
+            
+          return dfs(node.left, num) + dfs(node.right, num)
+            
+      return dfs(root, 0)
 </pre>
 
   
