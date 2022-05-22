@@ -393,6 +393,28 @@ class Solution:
       return self.ans
 </pre>
 
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/minimum-depth-of-binary-tree/" target="_blank">https://leetcode.com/problems/minimum-depth-of-binary-tree/</a></p>
+<pre>
+class Solution:
+  def minDepth(self, root: Optional[TreeNode]) -> int:
+      self.ans = float("inf")
+      if root == None:
+          return 0
+       
+      def dfs(node, dep):
+          if node == None:
+              return 0
+            
+          if node.left == None and node.right == None:
+              self.ans = min(self.ans, dep)
+                
+          dfs(node.left, dep + 1)
+          dfs(node.right, dep + 1)
+            
+      dfs(root, 1)   
+      return self.ans
+</pre>
+
 </div>
       </div>
     </div>
