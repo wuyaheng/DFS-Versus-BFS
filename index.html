@@ -415,6 +415,29 @@ class Solution:
       return self.ans
 </pre>
 
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/balanced-binary-tree/" target="_blank">https://leetcode.com/problems/balanced-binary-tree/</a></p>
+<pre>
+class Solution:
+  def isBalanced(self, root: Optional[TreeNode]) -> bool:       
+      def dfs(node):
+          if node == None:
+              return 0
+            
+          l, r = dfs(node.left), dfs(node.right)
+            
+          if l == -1:
+              return -1
+          if r == -1:
+              return -1
+            
+          if abs(l - r) > 1:
+              return -1
+            
+          return max(l, r) + 1
+        
+      return dfs(root) != -1
+</pre>   
+
 </div>
       </div>
     </div>
