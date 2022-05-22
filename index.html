@@ -462,6 +462,26 @@ class Solution:
       return dummy.right
 </pre>  
 
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/sum-of-left-leaves/" target="_blank">https://leetcode.com/problems/sum-of-left-leaves/</a></p>
+<pre>
+class Solution:
+  def sumOfLeftLeaves(self, root: Optional[TreeNode]) -> int:
+      self.ans = 0
+        
+      def dfs(node):
+          if node == None:
+              return 0
+            
+          if node.left != None and node.left.left == None and node.left.right == None:
+              self.ans += node.left.val
+            
+          dfs(node.left)
+          dfs(node.right)
+            
+      dfs(root)
+      return self.ans
+</pre>  
+
 </div>
       </div>
     </div>
