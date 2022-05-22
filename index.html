@@ -328,6 +328,32 @@ class Solution:
       return self.ans
 </pre>
 
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/longest-univalue-path/" target="_blank">https://leetcode.com/problems/longest-univalue-path/</a></p>
+<pre>
+class Solution:
+  def longestUnivaluePath(self, root: Optional[TreeNode]) -> int:
+      self.ans = 0
+        
+      def dfs(node):
+          if node == None:
+              return 0
+            
+          l, r = dfs(node.left), dfs(node.right)
+            
+          L, R = 0, 0
+          if node.left != None and node.left.val == node.val:
+              L = l
+          if node.right != None and node.right.val == node.val:
+              R = r
+            
+          self.ans = max(self.ans, L + R)
+            
+          return max(L, R) + 1
+                      
+      dfs(root)
+      return self.ans
+</pre>
+
 </div>
       </div>
     </div>
