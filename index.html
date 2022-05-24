@@ -530,6 +530,39 @@ class Solution:
       return self.max  
 </pre> 
 
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/binary-tree-longest-consecutive-sequence-ii/" target="_blank">https://leetcode.com/problems/binary-tree-longest-consecutive-sequence-ii/</a></p>
+<pre>
+class Solution:
+  def longestConsecutive(self, root: Optional[TreeNode]) -> int:
+      self.max = 0
+        
+      def dfs(node):
+          if node == None:
+              return [0, 0]
+            
+          l, r = dfs(node.left), dfs(node.right)
+          inc, dec = 1, 1
+            
+          if node.left:
+              if node.val == node.left.val + 1:
+                  dec = l[1] + 1
+              if node.val == node.left.val - 1:
+                  inc = l[0] + 1
+                    
+          if node.right:
+              if node.val == node.right.val + 1:
+                  dec = max(dec, r[1] + 1)
+              if node.val == node.right.val - 1:
+                  inc = max(inc, r[0] + 1)
+                    
+          self.max = max(self.max, inc + dec - 1)
+          return [inc, dec]
+        
+      dfs(root)
+      return self.max
+</pre> 
+
 <p class="text-center text-muted"><a href="https://leetcode.com/problems/maximum-width-of-binary-tree/" target="_blank">https://leetcode.com/problems/maximum-width-of-binary-tree/</a></p>
 <pre>
 class Solution:
@@ -581,6 +614,9 @@ class Solution:
       dfs2(root)
       return self.ans % (10 ** 9 + 7)
 </pre> 
+
+
+
 
 </div>
       </div>
