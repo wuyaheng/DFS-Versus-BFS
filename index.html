@@ -553,6 +553,35 @@ class Solution:
       return self.max
 </pre> 
 
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/maximum-product-of-splitted-binary-tree/" target="_blank">https://leetcode.com/problems/maximum-product-of-splitted-binary-tree/</a></p>
+<pre>
+class Solution:
+  def maxProduct(self, root: Optional[TreeNode]) -> int:
+      self.total = 0
+      self.ans = 0
+        
+      def dfs1(node):
+          if node == None:
+              return
+            
+          self.total += node.val
+          dfs1(node.left)
+          dfs1(node.right)
+            
+        
+      def dfs2(node):
+          if node == None:
+              return 0
+            
+          l, r = dfs2(node.left), dfs2(node.right)
+          self.ans = max(self.ans, max(l * (self.total - l), r * (self.total - r)))
+          return node.val + l + r
+        
+      dfs1(root)
+      dfs2(root)
+      return self.ans % (10 ** 9 + 7)
+</pre> 
+
 </div>
       </div>
     </div>
