@@ -503,6 +503,33 @@ class Solution:
       return root if dfs(root) else None
 </pre> 
 
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/binary-tree-longest-consecutive-sequence/" target="_blank">https://leetcode.com/problems/binary-tree-longest-consecutive-sequence/</a></p>
+<pre>
+class Solution:
+  def longestConsecutive(self, root: Optional[TreeNode]) -> int:
+      self.max = 1
+        
+      def dfs(node, cnt):
+            
+          self.max = max(self.max, cnt)  
+            
+          if node.left:
+              if node.left.val == node.val + 1:
+                  dfs(node.left, cnt + 1)
+              else:
+                  dfs(node.left, 1)
+                    
+          if node.right:
+              if node.right.val == node.val + 1:
+                  dfs(node.right, cnt + 1)
+              else:
+                  dfs(node.right, 1)
+            
+      dfs(root, 1)
+      return self.max  
+</pre> 
+
 </div>
       </div>
     </div>
