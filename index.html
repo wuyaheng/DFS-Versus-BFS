@@ -482,6 +482,27 @@ class Solution:
       return self.ans
 </pre>  
 
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/binary-tree-pruning/" target="_blank">https://leetcode.com/problems/binary-tree-pruning/</a></p>
+<pre>
+class Solution:
+  def pruneTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+      def dfs(node):
+            
+          if not node:
+              return False
+            
+          l, r = dfs(node.left), dfs(node.right)
+            
+          if not l:
+              node.left = None
+          if not r:
+              node.right = None
+                
+          return l or r or node.val == 1
+               
+      return root if dfs(root) else None
+</pre> 
+
 </div>
       </div>
     </div>
