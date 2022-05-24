@@ -615,6 +615,40 @@ class Solution:
       return self.ans % (10 ** 9 + 7)
 </pre> 
 
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/find-mode-in-binary-search-tree/" target="_blank">https://leetcode.com/problems/find-mode-in-binary-search-tree/</a></p>
+<pre>
+class Solution:
+  def findMode(self, root: Optional[TreeNode]) -> List[int]:
+      self.pre = root.val
+      self.cur, self.max = 0, 0
+      self.ans = []
+        
+      def dfs(node):
+          if node == None:
+              return
+            
+          dfs(node.left)
+            
+          if node.val != self.pre:
+              self.cur = 1
+              self.pre = node.val
+          else:
+              self.cur += 1
+                
+          if self.cur > self.max:
+              self.max = self.cur
+              self.ans.clear()
+              self.ans.append(node.val)
+                
+          elif self.cur == self.max:
+              self.ans.append(node.val)            
+            
+          dfs(node.right)
+            
+      dfs(root)
+      return self.ans
+</pre>
+
 
 
 
