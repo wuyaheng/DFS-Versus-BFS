@@ -530,6 +530,29 @@ class Solution:
       return self.max  
 </pre> 
 
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/maximum-width-of-binary-tree/" target="_blank">https://leetcode.com/problems/maximum-width-of-binary-tree/</a></p>
+<pre>
+class Solution:
+  def widthOfBinaryTree(self, root: Optional[TreeNode]) -> int:
+      self.max = 0
+      pos = []
+        
+      def dfs(node, dep, p):
+          if node == None:
+              return
+            
+          if dep == len(pos):
+              pos.append(p)
+                
+          self.max = max(self.max, p - pos[dep] + 1)
+            
+          dfs(node.left,  dep + 1, p * 2 + 1)
+          dfs(node.right, dep + 1, p * 2 + 2)
+            
+      dfs(root, 0, 0)
+      return self.max
+</pre> 
+
 </div>
       </div>
     </div>
