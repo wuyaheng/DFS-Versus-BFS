@@ -696,6 +696,38 @@ class Solution:
       return self.ans
 </pre>
 
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/recover-binary-search-tree/" target="_blank">https://leetcode.com/problems/recover-binary-search-tree/</a></p>
+<pre>
+class Solution:
+  def recoverTree(self, root: Optional[TreeNode]) -> None:
+      arr = []
+        
+      def dfs(node):
+          if node == None:
+              return
+            
+          dfs(node.left)
+          arr.append(node)
+          dfs(node.right)
+        
+      dfs(root)
+        
+      a = None
+      b = None
+        
+      for i in range(0, len(arr)):
+          if arr[i].val > arr[i + 1].val:
+              a = arr[i]
+              break
+        
+      for i in range(len(arr) - 1, -1, -1):
+          if arr[i].val < arr[i - 1].val:
+              b = arr[i]
+              break
+                
+      a.val, b.val = b.val, a.val  
+</pre>
+
 
 
 </div>
