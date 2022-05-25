@@ -753,6 +753,32 @@ class Solution:
 </pre>
 
 
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/closest-binary-search-tree-value-ii/" target="_blank">https://leetcode.com/problems/closest-binary-search-tree-value-ii/</a></p>
+<pre>
+class Solution:
+  def closestKValues(self, root: Optional[TreeNode], target: float, k: int) -> List[int]:
+      self.q = deque()
+        
+      def dfs(node):
+          if node == None:
+              return
+            
+          dfs(node.left)
+            
+          if len(self.q) < k:
+              self.q.append(node.val)
+                
+          elif abs(self.q[0] - target) > abs(node.val - target):
+              self.q.popleft()
+              self.q.append(node.val)
+            
+          dfs(node.right)
+            
+      dfs(root)
+      return self.q
+</pre>
+
+
 </div>
       </div>
     </div>
