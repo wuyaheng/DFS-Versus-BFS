@@ -728,6 +728,29 @@ class Solution:
       a.val, b.val = b.val, a.val  
 </pre>
 
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/inorder-successor-in-bst/" target="_blank">https://leetcode.com/problems/inorder-successor-in-bst/</a></p>
+<pre>
+class Solution:
+  def inorderSuccessor(self, root: TreeNode, p: TreeNode) -> Optional[TreeNode]:
+      self.ans = None
+      self.flag = False
+        
+      def dfs(node):
+          if node == None:
+              return
+            
+          dfs(node.left)
+            
+          if self.flag and self.ans == None:
+              self.ans = node
+          if not self.flag and node == p:
+              self.flag = True
+                
+          dfs(node.right)
+            
+      dfs(root)
+      return self.ans
+</pre>
 
 
 </div>
