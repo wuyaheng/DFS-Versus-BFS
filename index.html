@@ -130,6 +130,17 @@ pre span {
   width: 50%;
 }
 
+h6 {
+    color: #ee856b;
+}
+
+hr {
+  border: 0;
+  height: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
 @media only screen and (max-width: 768px) {
   .slideSample {
     width: 80%;
@@ -158,7 +169,7 @@ pre span {
       <!-- <a class="named_anchor" name="2549202418499648455"></a> -->
       <div id="article">
         <div id="content"> 
-          <p>DFS stands for Depth First Search. As the name suggests, after starting from the root, it will keep traversing until it reaches the bottom node. Once it reaches the bottom, it will backtrack to traverse other paths. The DFS for trees can be traversed using pre-order, in-order, and post-order. Usually, the Stack data structure is used for the DFS traversal.</p>
+          <p>DFS, or Depth First Search, is a traversal algorithm used to explore graphs and trees. It starts from the root and explores each branch as far as possible before backtracking. This algorithm can be used to perform tree traversal in pre-order, in-order, and post-order. Often, the Stack data structure is used for DFS traversal.</p>
 
         <p>BFS stands for Breadth-First Search, which is also known as level order traversal. As the name suggests, after traversing all the nodes in the current level, it will move on to the next level. Usually, the Queue data structure is used for the BFS traversal.</p>
 
@@ -166,7 +177,10 @@ pre span {
 
           <div class="row justify-content-center"><img class="slideSample" src="./assets/DFS-BFS.jpg"/></div>
         
-          <p>Below is a list of practice problems from Leetcode about DFS and BFS. Practicing these problems will help you better understand how DFS and BFS works.</p>
+          <p>Below is a list of practice problems from Leetcode about DFS and BFS. Happy coding!😄</p>
+
+          <hr>
+          <h6>&bull; DFS</h6>
 
           <p class="text-center text-muted"><a href="https://leetcode.com/problems/sum-root-to-leaf-numbers/" target="_blank">https://leetcode.com/problems/sum-root-to-leaf-numbers/</a></p>
 <pre>
@@ -776,6 +790,1142 @@ class Solution:
             
       dfs(root)
       return self.q
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/generate-parentheses/" target="_blank">https://leetcode.com/problems/generate-parentheses/</a></p> 
+<pre>
+class Solution:
+  def generateParenthesis(self, n: int) -> List[str]:
+      def dfs(u, l, r, cur):
+          if u == 2 * n:
+              return ans.append(cur) 
+          
+          if r < l: dfs(u + 1, l, r + 1, cur + ")")
+          if l < n: dfs(u + 1, l + 1, r, cur + "(")
+              
+      ans = []
+      dfs(0, 0, 0, "")
+      return ans
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/throne-inheritance/" target="_blank">https://leetcode.com/problems/throne-inheritance/</a></p> 
+<pre>
+class ThroneInheritance:
+  def __init__(self, kingName: str):
+      self.g = defaultdict(list)
+      self.kingName = kingName
+      self.dead = set()
+
+  def birth(self, parentName: str, childName: str) -> None:
+      self.g[parentName].append(childName)
+
+  def death(self, name: str) -> None:
+      self.dead.add(name)
+
+  def getInheritanceOrder(self) -> List[str]:
+      def dfs(u):
+          if u not in self.dead:
+              ans.append(u)
+              
+          for v in self.g[u]:
+              dfs(v)
+      
+      ans = []
+      dfs(self.kingName)
+      return ans
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/number-of-enclaves/" target="_blank">https://leetcode.com/problems/number-of-enclaves/</a></p> 
+<pre>
+class Solution:
+  def numEnclaves(self, grid: List[List[int]]) -> int:
+      def dfs(i, j):
+          grid[i][j] = 0
+          for ni, nj in [(i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1)]:
+              if 0 <= ni < m and 0 <= nj < n and grid[ni][nj] == 1:
+                  dfs(ni, nj)
+      
+      m, n = len(grid), len(grid[0])
+      for i in range(m):
+          for j in range(n):
+              if grid[i][j] == 1 and (i == 0 or j == 0 or i == m - 1 or j == n - 1):
+                  dfs(i, j)
+                  
+      return sum(sum(row) for row in grid)
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/validate-binary-tree-nodes/" target="_blank">https://leetcode.com/problems/validate-binary-tree-nodes/</a></p> 
+<pre>
+class Solution:
+  def validateBinaryTreeNodes(self, n: int, leftChild: List[int], rightChild: List[int]) -> bool:
+      def dfs(u):
+          vis.add(u)
+          if leftChild[u] != -1:
+              if leftChild[u] in vis or not dfs(leftChild[u]):
+                  return False
+          if rightChild[u] != -1:
+              if rightChild[u] in vis or not dfs(rightChild[u]):
+                  return False
+          return True
+      
+      d = [0] * n
+      for x in leftChild + rightChild:
+          if x != -1:
+              d[x] += 1
+              if d[x] > 1:
+                  return False
+      if d.count(0) != 1:
+          return False
+      
+      root = d.index(0)
+      vis = set()
+      if not dfs(root):
+          return False
+      
+      return len(vis) == n
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/number-of-islands/" target="_blank">https://leetcode.com/problems/number-of-islands/</a></p> 
+<pre>
+class Solution:
+  def numIslands(self, grid: List[List[str]]) -> int:        
+      def dfs(i, j):
+          grid[i][j] = '0'
+          for ni, nj in [(i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1)]:
+              if 0 <= ni < m and 0 <= nj < n and grid[ni][nj] == '1':       
+                  dfs(ni, nj)
+      
+      ans = 0
+      m, n = len(grid), len(grid[0])
+      for i in range(m):
+          for j in range(n):
+              if grid[i][j] == '1':
+                  ans += 1
+                  dfs(i, j)
+                  
+      return ans
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/count-sub-islands/" target="_blank">https://leetcode.com/problems/count-sub-islands/</a></p> 
+<pre>
+class Solution:
+  def countSubIslands(self, grid1: List[List[int]], grid2: List[List[int]]) -> int:
+      def dfs(i, j):
+          nonlocal isSub
+          grid2[i][j] = 0
+          if grid1[i][j] == 0:
+              isSub = False
+          for ni, nj in [(i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1)]:
+              if 0 <= ni < m and 0 <= nj < n and grid2[ni][nj] == 1:
+                  dfs(ni, nj)
+      
+      ans = 0
+      m, n = len(grid1), len(grid1[0]) 
+      
+      for i in range(m):
+          for j in range(n):
+              if grid2[i][j] == 1:
+                  isSub = True
+                  dfs(i, j)
+                  if isSub:
+                      ans += 1
+      return ans
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/count-servers-that-communicate/" target="_blank">https://leetcode.com/problems/count-servers-that-communicate/</a></p> 
+<pre>
+class Solution:
+  def countServers(self, grid: List[List[int]]) -> int:
+      def dfs(i, j):
+          nonlocal cnt
+          cnt += 1
+          vis.add((i, j))
+          
+          for ni, nj in g1[i] + g2[j]:
+              if (ni, nj) not in vis:
+                  dfs(ni, nj)
+       
+      g1 = defaultdict(list)
+      g2 = defaultdict(list)
+      m, n = len(grid), len(grid[0])
+      
+      for i in range(m):
+          for j in range(n):
+              if grid[i][j] == 1:
+                  g1[i].append([i, j])
+                  g2[j].append([i, j])
+  
+      vis = set()
+      ans = 0
+      for i in range(m):
+          for j in range(n):
+              if grid[i][j] == 1 and (i, j) not in vis:
+                  cnt = 0
+                  dfs(i, j)
+                  if cnt > 1:
+                      ans += cnt
+      return ans
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/word-search/" target="_blank">https://leetcode.com/problems/word-search/</a></p> 
+<pre>
+class Solution:
+  def exist(self, board: List[List[str]], word: str) -> bool:        
+      def dfs(i, j, u):
+          if board[i][j] != word[u]: return False   
+          if u == len(word) - 1: return True
+          
+          t = board[i][j]
+          board[i][j] = '#'
+          
+          for ni, nj in [(i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1)]:                
+              if 0 <= ni < m and 0 <= nj < n and board[ni][nj] != '#':
+                  if dfs(ni, nj, u + 1): return True
+                  
+          board[i][j] = t
+          return False
+      
+      m, n = len(board), len(board[0])   
+      for i in range(m):
+          for j in range(n):
+              if dfs(i, j, 0): return True
+              
+      return False
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/surrounded-regions/" target="_blank">https://leetcode.com/problems/surrounded-regions/</a></p> 
+<pre>
+class Solution:
+  def solve(self, board: List[List[str]]) -> None:
+      def dfs(i, j):
+          board[i][j] = '#'
+          for ni, nj in [(i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1)]:
+              if 0 <= ni < m and 0 <= nj < n and board[ni][nj] == 'O':
+                  dfs(ni, nj)
+                  
+      m, n = len(board), len(board[0])
+      
+      for i in range(m):
+          for j in range(n):
+              if (i == 0 or j == 0 or i == m - 1 or j == n - 1) and board[i][j] == 'O':
+                  dfs(i, j)
+                  
+      for i in range(m):
+          for j in range(n):
+              if board[i][j] == '#': board[i][j] = 'O'
+              elif board[i][j] == 'O': board[i][j] = 'X'
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/clone-graph/" target="_blank">https://leetcode.com/problems/clone-graph/</a></p> 
+<pre>
+class Solution:
+  def cloneGraph(self, node: 'Node') -> 'Node':
+      def dfs(node):
+          if node is None:
+              return None
+          
+          if node not in d:
+              d[node] = Node(node.val)
+              for v in node.neighbors:
+                  d[node].neighbors.append(dfs(v))
+          return d[node]
+      
+      d = {}
+      return dfs(node)
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/number-of-connected-components-in-an-undirected-graph/" target="_blank">https://leetcode.com/problems/number-of-connected-components-in-an-undirected-graph/</a></p> 
+<pre>
+class Solution:
+  def countComponents(self, n: int, edges: List[List[int]]) -> int:
+      def dfs(u):
+          vis.add(u)
+          for v in g[u]:
+              if v not in vis:
+                  dfs(v)
+      
+      ans = 0
+      g = defaultdict(list)
+      vis = set()
+      
+      for u, v in edges:
+          g[u].append(v)
+          g[v].append(u)
+          
+      for i in range(n):
+          if i not in vis:
+              ans += 1
+              dfs(i)
+              
+      return ans
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/pacific-atlantic-water-flow/" target="_blank">https://leetcode.com/problems/pacific-atlantic-water-flow/</a></p> 
+<pre>
+class Solution:
+  def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
+      def dfs(i, j, h):
+          h.add((i, j))
+          for ni, nj in [(i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1)]:
+              if 0 <= ni < m and 0 <= nj < n and heights[ni][nj] >= heights[i][j] and (ni, nj) not in h:
+                  dfs(ni, nj, h)
+      
+      m, n = len(heights), len(heights[0])
+      h1, h2 = set(), set()
+      for i in range(m):
+          for j in range(n):   
+              if i == 0 or j == 0: dfs(i, j, h1)
+              if i == m - 1 or j == n - 1: dfs(i, j, h2)
+                  
+      return list(h1 & h2)
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/the-maze/" target="_blank">https://leetcode.com/problems/the-maze/</a></p> 
+<pre>
+class Solution:
+  def hasPath(self, maze: List[List[int]], start: List[int], destination: List[int]) -> bool:
+      def dfs(i, j):
+          if [i, j] == destination:
+              return True
+          vis.add((i, j))
+          
+          for d in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+              ni, nj = i, j
+              while 0 <= ni + d[0] < m and 0 <= nj + d[1] < n and maze[ni + d[0]][nj + d[1]] == 0:
+                  ni, nj = ni + d[0], nj + d[1]
+              if (ni, nj) not in vis and dfs(ni, nj):
+                  return True
+          return False 
+      
+      m, n = len(maze), len(maze[0])
+      vis = set()
+      return dfs(start[0], start[1])
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/number-of-distinct-islands/" target="_blank">https://leetcode.com/problems/number-of-distinct-islands/</a></p> 
+<pre>
+class Solution:
+  def numDistinctIslands(self, grid: List[List[int]]) -> int:
+      def dfs(i, j):
+          nonlocal path
+          grid[i][j] = 0
+          for ni, nj, d in [(i - 1, j, 'u'), (i + 1, j, 'd'), (i, j - 1, 'l'), (i, j + 1, 'r')]:
+              path += d
+              if 0 <= ni < m and 0 <= nj < n and grid[ni][nj] == 1:
+                  dfs(ni, nj)
+      
+      m, n = len(grid), len(grid[0])
+      ans = set()
+      
+      for i in range(m):
+          for j in range(n):
+              if grid[i][j] == 1:
+                  path = ''
+                  dfs(i, j)
+                  ans.add(path)
+                  
+      return len(ans)
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/max-area-of-island/" target="_blank">https://leetcode.com/problems/max-area-of-island/</a></p> 
+<pre>
+class Solution:
+  def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
+      def dfs(i, j):
+          nonlocal cnt
+          grid[i][j] = 0
+          cnt += 1
+          for ni, nj in [(i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1)]:
+              if 0 <= ni < m and 0 <= nj < n and grid[ni][nj] == 1:
+                  dfs(ni, nj)
+      
+      ans = 0
+      m, n = len(grid), len(grid[0])
+      
+      for i in range(m):
+          for j in range(n):
+              if grid[i][j] == 1:
+                  cnt = 0
+                  dfs(i, j)
+                  ans = max(cnt, ans)
+                  
+      return ans
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/keys-and-rooms/" target="_blank">https://leetcode.com/problems/keys-and-rooms/</a></p> 
+<pre>
+class Solution:
+  def canVisitAllRooms(self, rooms: List[List[int]]) -> bool:
+      def dfs(u):
+          vis.add(u)
+          
+          for v in rooms[u]:
+              if v not in vis:
+                  dfs(v)
+      
+      vis = set()
+      dfs(0)
+      return len(vis) == len(rooms)
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/nested-list-weight-sum/" target="_blank">https://leetcode.com/problems/nested-list-weight-sum/</a></p> 
+<pre>
+class Solution:
+  def depthSum(self, nestedList: List[NestedInteger]) -> int:
+      def dfs(cur, dep):
+          nonlocal ans
+          for x in cur:
+              if x.isInteger():
+                  ans += dep * x.getInteger()
+              else:
+                  dfs(x.getList(), dep + 1)
+              
+      ans = 0
+      dfs(nestedList, 1)
+      return ans
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/employee-importance/" target="_blank">https://leetcode.com/problems/employee-importance/</a></p> 
+<pre>
+class Solution:
+  def getImportance(self, employees: List['Employee'], id: int) -> int:
+      def dfs(u):
+          nonlocal ans
+          ans += d[u].importance
+          
+          for v in d[u].subordinates:
+              dfs(v)
+      
+      ans = 0
+      d = {}
+      for e in employees:
+          d[e.id] = e
+          
+      dfs(id)
+      return ans
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/all-paths-from-source-to-target/" target="_blank">https://leetcode.com/problems/all-paths-from-source-to-target/</a></p> 
+<pre>
+class Solution:
+  def allPathsSourceTarget(self, graph: List[List[int]]) -> List[List[int]]:
+      def dfs(u, path):
+          nonlocal ans
+          path.append(u)
+          
+          if u == len(graph) - 1:
+              ans.append(path[::])
+          
+          for v in graph[u]:
+              dfs(v, path)
+          path.pop()
+      
+      ans = []
+      dfs(0, [])
+      return ans
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/jump-game-iii/" target="_blank">https://leetcode.com/problems/jump-game-iii/</a></p> 
+<pre>
+class Solution:
+  def canReach(self, arr: List[int], start: int) -> bool:
+      def dfs(i):
+          if arr[i] == 0:
+              return True
+          vis.add(i)
+          ans = False
+          
+          if i + arr[i] < len(arr) and i + arr[i] not in vis:
+              ans |= dfs(i + arr[i])
+          if i - arr[i] >= 0 and i - arr[i] not in vis:
+              ans |= dfs(i - arr[i])
+          
+          return ans
+      
+      vis = set()
+      return dfs(start)
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/number-of-closed-islands/" target="_blank">https://leetcode.com/problems/number-of-closed-islands/</a></p> 
+<pre>
+class Solution:
+  def closedIsland(self, grid: List[List[int]]) -> int:
+      def dfs(i, j):
+          grid[i][j] = 1
+          for ni, nj in [(i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1)]:
+              if 0 <= ni < m and 0 <= nj < n and grid[ni][nj] == 0:
+                  dfs(ni, nj)
+      
+      m, n = len(grid), len(grid[0])
+      for i in range(m):
+          for j in range(n):
+              if (i == 0 or j == 0 or i == m - 1 or j == n - 1) and grid[i][j] == 0:
+                  dfs(i, j)
+                  
+      ans = 0
+      for i in range(m):
+          for j in range(n):
+              if grid[i][j] == 0:
+                  ans += 1
+                  dfs(i, j)
+      return ans
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/reorder-routes-to-make-all-paths-lead-to-the-city-zero/" target="_blank">https://leetcode.com/problems/reorder-routes-to-make-all-paths-lead-to-the-city-zero/</a></p> 
+<pre>
+class Solution:
+  def minReorder(self, n: int, connections: List[List[int]]) -> int:
+      def dfs(u):
+          nonlocal ans
+          vis.add(u)
+          
+          for v in g[u]:
+              if v not in vis:
+                  if (u, v) not in origin:
+                      ans += 1
+                  dfs(v)
+      
+      origin = set((u, v) for u, v in connections)
+      g = defaultdict(list)
+      
+      for u, v in connections:
+          g[u].append(v)
+          g[v].append(u)
+          
+      ans = 0
+      vis = set()
+      dfs(0)
+      return len(connections) - ans
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/number-of-operations-to-make-network-connected/" target="_blank">https://leetcode.com/problems/number-of-operations-to-make-network-connected/</a></p> 
+<pre>
+class Solution:
+  def makeConnected(self, n: int, connections: List[List[int]]) -> int:
+      def dfs(u):
+          vis.add(u)
+          for v in g[u]:
+              if v not in vis:
+                  dfs(v)
+      
+      if len(connections) < n - 1:
+          return -1
+      
+      g = defaultdict(list)
+      
+      for u, v in connections:
+          g[u].append(v)
+          g[v].append(u)
+          
+      ans = 0
+      vis = set()
+      
+      for i in range(n):
+          if i not in vis:
+              ans += 1
+              dfs(i)
+      return ans - 1
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/possible-bipartition/" target="_blank">https://leetcode.com/problems/possible-bipartition/</a></p> 
+<pre>
+class Solution:
+  def possibleBipartition(self, n: int, dislikes: List[List[int]]) -> bool:
+      def dfs(u, c):
+          if u in color:
+              return color[u] == c
+          
+          color[u] = c
+          
+          for v in g[u]:
+              if not dfs(v, c ^ 1):
+                  return False
+          return True
+      
+      color = {}
+      g = defaultdict(list)
+      
+      for u, v in dislikes:
+          g[u].append(v)
+          g[v].append(u)
+      
+      for i in range(1, n + 1):
+          if i not in color and not dfs(i, 0):
+              return False
+      return True
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/kill-process/" target="_blank">https://leetcode.com/problems/kill-process/</a></p> 
+<pre>
+class Solution:
+  def killProcess(self, pid: List[int], ppid: List[int], kill: int) -> List[int]:
+      def dfs(u):
+          ans.append(u)
+          
+          for v in g[u]:
+              dfs(v)
+      
+      n = len(pid)
+      g = defaultdict(list)
+      
+      for i in range(n):
+          g[ppid[i]].append(pid[i])
+          
+      ans = []
+      dfs(kill)
+      return ans
+</pre> 
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/time-needed-to-inform-all-employees/" target="_blank">https://leetcode.com/problems/time-needed-to-inform-all-employees/</a></p> 
+<pre>
+class Solution:
+  def numOfMinutes(self, n: int, headID: int, manager: List[int], informTime: List[int]) -> int:
+      def dfs(u, time):
+          nonlocal ans
+          ans = max(ans, time)
+          
+          for v in g[u]:
+              dfs(v, time + informTime[u])
+      
+      ans = 0
+      g = defaultdict(list)
+      
+      for i in range(n):
+          g[manager[i]].append(i)
+          
+      dfs(headID, 0)
+      return ans
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/lexicographical-numbers/" target="_blank">https://leetcode.com/problems/lexicographical-numbers/</a></p> 
+<pre>
+class Solution:
+  def lexicalOrder(self, n: int) -> List[int]:
+      def dfs(u):
+          for i in range(1 if u == 0 else 0, min(9, n) + 1):
+              if u + i <= n:
+                  ans.append(u + i)
+                  if (u + i) * 10 <= n:
+                      dfs((u + i) * 10)
+      
+      ans = []
+      dfs(0)
+      return ans
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/most-stones-removed-with-same-row-or-column/" target="_blank">https://leetcode.com/problems/most-stones-removed-with-same-row-or-column/</a></p> 
+<pre>
+class Solution:
+  def removeStones(self, stones: List[List[int]]) -> int:
+      def dfs(r, c):
+          vis.add((r, c))
+          for nr, nc in g1[r] + g2[c]:
+              if (nr, nc) not in vis:
+                  dfs(nr, nc)
+      
+      g1 = defaultdict(list)
+      g2 = defaultdict(list)
+      
+      for r, c in stones:
+          g1[r].append([r, c])
+          g2[c].append([r, c])
+          
+      ans = 0
+      vis = set()
+      for r, c in stones:
+          if (r, c) not in vis:
+              ans += 1
+              dfs(r, c)
+              
+      return len(stones) - ans
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/sentence-similarity-ii/" target="_blank">https://leetcode.com/problems/sentence-similarity-ii/</a></p> 
+<pre>
+class Solution:
+  def areSentencesSimilarTwo(self, sentence1: List[str], sentence2: List[str], similarPairs: List[List[str]]) -> bool:
+      def dfs(u, target):
+          if u == target:
+              return True
+          vis.add(u)
+          for v in g[u]:
+              if v not in vis and dfs(v, target):
+                  return True
+          return False
+      
+      if len(sentence1) != len(sentence2):
+          return False
+      
+      g = defaultdict(list)
+      
+      for u, v in similarPairs:
+          g[u].append(v)
+          g[v].append(u)
+          
+      for u, v in zip(sentence1, sentence2):
+          vis = set()
+          if not dfs(u, v):
+              return False
+      return True
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/evaluate-division/" target="_blank">https://leetcode.com/problems/evaluate-division/</a></p> 
+<pre>
+class Solution:
+  def calcEquation(self, equations: List[List[str]], values: List[float], queries: List[List[str]]) -> List[float]:
+      def dfs(x, y, i, cur):
+          if x == y:
+              ans[i] = cur
+              return
+          vis.add(x)
+          for z, val in g[x]:
+              if z not in vis:
+                  dfs(z, y, i, cur * val)
+      
+      g = defaultdict(list)
+      for (x, y), z in zip(equations, values):
+          g[x].append((y, z))
+          g[y].append((x, 1/z))
+          
+      ans = [-1] * len(queries)
+      
+      for i, (x, y) in enumerate(queries):
+          vis = set()
+          if x in g and y in g:
+              dfs(x, y, i, 1)
+              
+      return ans
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/letter-combinations-of-a-phone-number/" target="_blank">https://leetcode.com/problems/letter-combinations-of-a-phone-number/</a></p> 
+<pre>
+class Solution:
+  def letterCombinations(self, digits: str) -> List[str]:
+      if digits == "":
+          return []
+      
+      d = {
+          "2": "abc",
+          "3": "def",
+          "4": "ghi",
+          "5": "jkl",
+          "6": "mno",
+          "7": "pqrs",
+          "8": "tuv",
+          "9": "wxyz"
+      }
+      
+      ans = []
+      
+      def dfs(cur, j):
+          if j == len(digits):
+              return ans.append(cur)
+          
+          for v in d[digits[j]]:
+              dfs(cur + str(v), j + 1)
+      
+      dfs("", 0)
+      
+      return ans
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/unique-paths-iii/" target="_blank">https://leetcode.com/problems/unique-paths-iii/</a></p> 
+<pre> 
+class Solution:
+  def uniquePathsIII(self, grid: List[List[int]]) -> int:
+      def dfs(i, j):
+          nonlocal ans
+          if i == er and j == ec:
+              if len(vis) + 1 == m * n - block:
+                  ans += 1
+              return
+          
+          vis.add((i, j))
+          
+          for ni, nj in [(i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1)]:
+              if 0 <= ni < m and 0 <= nj < n and grid[ni][nj] != -1 and (ni, nj) not in vis:
+                  dfs(ni, nj)
+                  
+          vis.remove((i, j))
+
+      ans = 0
+      vis = set()
+      block = 0
+      sr, sc, er, ec = 0, 0, 0, 0
+      m, n = len(grid), len(grid[0])
+      
+      for i in range(m):
+          for j in range(n):
+              if grid[i][j] == 1:
+                  sr, sc = i, j
+              if grid[i][j] == 2:
+                  er, ec = i, j
+              if grid[i][j] == -1:
+                  block += 1
+
+      dfs(sr, sc)
+      return ans
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/is-graph-bipartite/" target="_blank">https://leetcode.com/problems/is-graph-bipartite/</a></p> 
+<pre>
+class Solution:
+  def isBipartite(self, graph: List[List[int]]) -> bool:
+      def dfs(u, c):
+          if u in vis:
+              return vis[u] == c
+          vis[u] = c
+          
+          for v in graph[u]:
+              if not dfs(v, c ^ 1):
+                  return False
+          return True
+      
+      vis = {}
+      n = len(graph)
+      for i in range(n):
+          if i not in vis:
+              if not dfs(i, 0):
+                  return False
+      return True
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/coloring-a-border/" target="_blank">https://leetcode.com/problems/coloring-a-border/</a></p> 
+<pre>
+class Solution:
+  def colorBorder(self, grid: List[List[int]], row: int, col: int, color: int) -> List[List[int]]:
+      def dfs(i, j):
+          t[i][j] = True
+          grid[i][j] = color
+          for ni, nj in [(i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1)]:
+              if 0 <= ni < m and 0 <= nj < n and grid[ni][nj] == old:
+                  dfs(ni, nj)
+      
+      if grid[row][col] == color:
+          return grid
+      m, n = len(grid), len(grid[0])
+      old = grid[row][col]
+      t = [[False] * n for _ in range(m)]
+      
+      dfs(row, col)
+      
+      for i in range(1, m - 1):
+          for j in range(1, n - 1):
+              if t[i][j] and t[i - 1][j] and t[i + 1][j] and t[i][j - 1] and t[i][j + 1]:
+                  grid[i][j] = old
+      return grid
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/detect-cycles-in-2d-grid/" target="_blank">https://leetcode.com/problems/detect-cycles-in-2d-grid/</a></p> 
+<pre>
+class Solution:
+  def containsCycle(self, grid: List[List[str]]) -> bool:
+      def dfs(i, j, pi, pj):
+          vis.add((i, j))
+          for ni, nj in [(i-1, j), (i + 1, j), (i, j - 1), (i, j + 1)]:
+              if 0 <= ni < m and 0 <= nj < n and grid[ni][nj] == grid[i][j] and (ni, nj) != (pi, pj):
+                  if (ni, nj) in vis or dfs(ni, nj, i, j):
+                      return True
+          return False
+      
+      m, n = len(grid), len(grid[0])
+      vis = set()
+      for i in range(m):
+          for j in range(n):
+              if (i, j) not in vis:
+                  if dfs(i, j, -1, -1):
+                      return True
+      return False
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/shortest-bridge/" target="_blank">https://leetcode.com/problems/shortest-bridge/</a></p> 
+<pre>
+class Solution:
+  def shortestBridge(self, grid: List[List[int]]) -> int:
+      def dfs(i, j):
+          heapq.heappush(q, (0, i, j))
+          vis.add((i, j))
+          
+          for ni, nj in [(i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1)]:
+              if 0 <= ni < m and 0 <= nj < n and grid[ni][nj] == 1 and (ni, nj) not in vis:
+                  dfs(ni, nj)
+                  
+      def bfs():
+          while q:
+              x, i, j = heapq.heappop(q)
+              if x > 0 and grid[i][j] == 1:
+                  return x - 1
+              for ni, nj in [(i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1)]:
+                  if 0 <= ni < m and 0 <= nj < n and (ni, nj) not in vis:
+                      vis.add((ni, nj))
+                      heapq.heappush(q, (x + 1, ni, nj))
+      
+      m, n = len(grid), len(grid[0])
+      q = []
+      for i in range(m):
+          for j in range(n):
+              if grid[i][j] == 1:
+                  vis = set()
+                  dfs(i, j)
+                  return bfs()
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/minesweeper/" target="_blank">https://leetcode.com/problems/minesweeper/</a></p> 
+<pre>
+class Solution:
+  def updateBoard(self, board: List[List[str]], click: List[int]) -> List[List[str]]:
+      def dfs(i, j):
+          cnt = 0
+          for d in dirs:
+              ni, nj = i + d[0], j + d[1]
+              if 0 <= ni < m and 0 <= nj < n and board[ni][nj] == 'M':
+                  cnt += 1
+          if cnt == 0:
+              board[i][j] = 'B'
+              for d in dirs:
+                  ni, nj = i + d[0], j + d[1]
+                  if 0 <= ni < m and 0 <= nj < n and board[ni][nj] == 'E':
+                      dfs(ni, nj)
+          else:
+              board[i][j] = str(cnt)
+      
+      dirs = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]  
+      m, n = len(board), len(board[0])
+      
+      i, j = click
+      if board[i][j] == 'M': 
+          board[i][j] = 'X'
+      else: 
+          dfs(i, j)
+      return board
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/number-of-provinces/" target="_blank">https://leetcode.com/problems/number-of-provinces/</a></p> 
+<pre>
+class Solution:
+  def findCircleNum(self, isConnected: List[List[int]]) -> int:
+      def dfs(i):
+          vis.add(i)
+          for j in range(n):
+              if isConnected[i][j] and j not in vis:
+                  dfs(j)
+      
+      ans = 0
+      n = len(isConnected)
+      vis = set()
+      for i in range(n):
+          if i not in vis:
+              dfs(i)
+              ans += 1
+              
+      return ans
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/all-paths-from-source-lead-to-destination/" target="_blank">https://leetcode.com/problems/all-paths-from-source-lead-to-destination/</a></p> 
+<pre>
+class Solution:
+  def leadsToDestination(self, n: int, edges: List[List[int]], source: int, destination: int) -> bool:
+      @lru_cache(None)
+      def dfs(u):
+          if not g[u]:
+              return u == destination
+          
+          vis.add(u)
+          for v in g[u]:
+              if v in vis or not dfs(v):
+                  return False
+          vis.remove(u)
+          return True
+      
+      vis = set()
+      g = defaultdict(list)
+      
+      for u, v in edges:
+          g[u].append(v)
+          
+      return dfs(source)
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/smallest-common-region/" target="_blank">https://leetcode.com/problems/smallest-common-region/</a></p> 
+<pre>
+class Solution:
+  def findSmallestRegion(self, regions: List[List[str]], region1: str, region2: str) -> str:
+      def dfs(u):
+          if u == region1 or u == region2:
+              return u
+          ans = set()
+          for v in g[u]:
+              t = dfs(v)
+              if t:
+                  ans.add(t)
+          if len(ans) == 2:
+              return u
+          return ans.pop() if len(ans) == 1 else None
+      
+      g = defaultdict(list)
+      sub = set()
+      
+      for region in regions:
+          for i in range(1, len(region)):
+              g[region[0]].append(region[i])
+              sub.add(region[i])
+              
+      for region in regions:
+          if region[0] not in sub:
+              return dfs(region[0])
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/regions-cut-by-slashes/" target="_blank">https://leetcode.com/problems/regions-cut-by-slashes/</a></p> 
+<pre>
+class Solution:
+  def regionsBySlashes(self, grid: List[str]) -> int:
+      def dfs(i, j):
+          g[i][j] = 1
+          for ni, nj in [(i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1)]:
+              if 0 <= ni < m * 3 and 0 <= nj < n * 3 and g[ni][nj] == 0:
+                  dfs(ni, nj)
+      
+      m, n = len(grid), len(grid[0])
+      g = [[0] * n * 3 for _ in range(m * 3)]
+      
+      for i in range(m):
+          for j in range(n):
+              if grid[i][j] == '/':
+                  for k in range(3):
+                      g[i * 3 + k][j * 3 + 2 - k] = 1
+              elif grid[i][j] == '\\':
+                  for k in range(3):
+                      g[i * 3 + k][j * 3 + k] = 1
+                      
+      ans = 0
+      for i in range(m * 3):
+          for j in range(n * 3):
+              if g[i][j] == 0:
+                  ans += 1
+                  dfs(i, j)
+      return ans
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/pyramid-transition-matrix/" target="_blank">https://leetcode.com/problems/pyramid-transition-matrix/</a></p> 
+<pre>
+class Solution:
+  def pyramidTransition(self, bottom: str, allowed: List[str]) -> bool:
+      @lru_cache(None)
+      def dfs(s, i):
+          if len(s) == 1:
+              return True
+          if i == len(s) - 1:
+              return dfs(s[:-1], 0)
+          
+          for c in g[s[i: i + 2]]:
+              if dfs(s[:i] + c + s[i + 1:], i + 1):
+                  return True
+          return False
+          
+      g = defaultdict(list)
+      for s in allowed:
+          g[s[:2]].append(s[-1])
+          
+      return dfs(bottom, 0)
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/loud-and-rich/" target="_blank">https://leetcode.com/problems/loud-and-rich/</a></p> 
+<pre>
+class Solution:
+  def loudAndRich(self, richer: List[List[int]], quiet: List[int]) -> List[int]:
+      @lru_cache(None)
+      
+      def dfs(u):
+          if not g[u]:
+              return [quiet[u], u]
+          t = min(dfs(v) for v in g[u])
+          t = min(t, [quiet[u], u])
+          
+          if quiet[ans[u]] > quiet[t[1]]:
+              ans[u] = t[1]
+          return t
+      
+      n = len(quiet)
+      ans = list(range(n))
+      g = defaultdict(list)
+      
+      for u, v in richer:
+          g[v].append(u)
+          
+      for i in range(n):
+          dfs(i)
+      return ans
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/check-if-there-is-a-valid-path-in-a-grid/" target="_blank">https://leetcode.com/problems/check-if-there-is-a-valid-path-in-a-grid/</a></p> 
+<pre>
+class Solution:
+  def hasValidPath(self, grid: List[List[int]]) -> bool:
+      def dfs(i, j, d):
+          if i == m - 1 and j == n - 1:
+              return True
+          vis.add((i, j))
+          
+          ni, nj = i + dirs[d][0], j + dirs[d][1]
+          if 0 <= ni < m and 0 <= nj < n and (ni, nj) not in vis and g[grid[ni][nj]][d] != -1:
+              if dfs(ni, nj, g[grid[ni][nj]][d]):
+                  return True
+          return False
+      
+      # 0 up 1 right 2 down 3 left
+      g = [[], [-1, 1, -1, 3], [0, -1, 2, -1], [3, 2, -1, -1], [1, -1, -1, 2], [-1, 0, 3, -1], [-1, -1, 1, 0]]
+      m, n = len(grid), len(grid[0])
+      
+      vis = set()
+      dirs = [[-1, 0], [0, 1], [1, 0], [0, -1]]
+      
+      for i in range(4):
+          if dfs(0, 0, i):
+              return True
+      return False
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/flower-planting-with-no-adjacent/" target="_blank">https://leetcode.com/problems/flower-planting-with-no-adjacent/</a></p> 
+<pre>
+class Solution:
+  def gardenNoAdj(self, n: int, paths: List[List[int]]) -> List[int]:
+      ans = [0] * n
+      g = defaultdict(list)
+      
+      for u, v in paths:
+          g[u - 1].append(v - 1)
+          g[v - 1].append(u - 1)
+
+      for i in range(n):
+          ans[i] = ({1, 2, 3, 4} - {ans[j] for j in g[i]}).pop()
+          
+      return ans
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/nested-list-weight-sum-ii/" target="_blank">https://leetcode.com/problems/nested-list-weight-sum-ii/</a></p> 
+<pre>
+class Solution:
+  def depthSumInverse(self, nestedList: List[NestedInteger]) -> int:
+      def getDep(cur, u):
+          nonlocal mx
+          mx = max(mx, u)
+          for v in cur:
+              if not v.isInteger() and v.getList():
+                  getDep(v.getList(), u + 1)
+      
+      def dfs(cur, u):
+          nonlocal ans
+          for v in cur:
+              if v.isInteger():
+                  ans += v.getInteger() * (mx - u + 1)
+              else:
+                  dfs(v.getList(), u + 1)
+      
+      mx = 0
+      getDep(nestedList, 1)
+      ans = 0
+      dfs(nestedList, 1)
+      return ans
 </pre>
 
 
