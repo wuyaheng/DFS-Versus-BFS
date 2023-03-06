@@ -1928,6 +1928,592 @@ class Solution:
       return ans
 </pre>
 
+<hr>
+<h6>&bull; BFS</h6>
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/letter-combinations-of-a-phone-number/" target="_blank">https://leetcode.com/problems/letter-combinations-of-a-phone-number/</a></p> 
+<pre>
+class Solution:
+  def letterCombinations(self, digits: str) -> List[str]:
+      if digits == "":
+          return []
+      
+      s = ["", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz" ]
+      
+      a = [""]
+      for c in digits:
+          b = []
+          for cur in a:
+              for ch in s[int(c)]:
+                  b.append(cur + ch)
+          a = b
+      
+      return a
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/brace-expansion/" target="_blank">https://leetcode.com/problems/brace-expansion/</a></p> 
+<pre>
+class Solution:
+  def expand(self, s: str) -> List[str]:
+      n = len(s)
+      a = ['']
+      i = 0
+      
+      while i < n:
+          b = []
+          
+          if s[i] == '{':
+              j = s.find('}', i)
+              t = [c for c in s[i + 1: j] if c.isalpha()]
+              i = j + 1
+          else:
+              t = s[i]
+              i = i + 1
+          
+          for c in t:
+              for cur in a:
+                  b.append(cur + c)
+          a = b
+          
+      return sorted(a)
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/rotting-oranges/" target="_blank">https://leetcode.com/problems/rotting-oranges/</a></p> 
+<pre>
+class Solution:
+  def orangesRotting(self, grid: List[List[int]]) -> int:
+      q = deque()
+      m, n = len(grid), len(grid[0])
+      
+      for i in range(m):
+          for j in range(n):
+              if grid[i][j] == 2:
+                  q.append([i, j, 0])
+      
+      time = 0
+      while q:
+          x, y, time = q.popleft()
+          for nx, ny in [(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)]:
+              if 0 <= nx < m and 0 <= ny < n and grid[nx][ny] == 1:
+                  grid[nx][ny] = 2
+                  q.append([nx, ny, time + 1])
+                  
+      for g in grid:
+          if 1 in g:
+              return -1
+      return time
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/shortest-path-to-get-food/" target="_blank">https://leetcode.com/problems/shortest-path-to-get-food/</a></p> 
+<pre>
+class Solution:
+  def getFood(self, grid: List[List[str]]) -> int:
+      m, n = len(grid), len(grid[0])
+      vis = set()
+      q = deque()
+      
+      for i in range(m):
+          for j in range(n):
+              if grid[i][j] == 'X':
+                  vis.add((i, j))
+              elif grid[i][j] == '*':
+                  vis.add((i, j))
+                  q.append((i, j, 0))
+      
+      while q:
+          i, j, k = q.popleft()
+          if grid[i][j] == '#':
+              return k
+          for ni, nj in [(i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1)]:
+              if 0 <= ni < m and 0 <= nj < n and (ni, nj) not in vis:
+                  vis.add((ni, nj))
+                  q.append((ni, nj, k + 1))
+                  
+      return -1
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/minimum-knight-moves/" target="_blank">https://leetcode.com/problems/minimum-knight-moves/</a></p> 
+<pre>
+class Solution:
+  def minKnightMoves(self, x: int, y: int) -> int:
+      dirs = [[-2, 1], [-1, 2], [1, 2], [2, 1], [2, -1], [1, -2], [-1, -2], [-2, -1]]
+      q = deque()
+      vis = set()
+      q.append((0, 0, 0))
+      
+      while q:
+          i, j, k = q.popleft()
+          if i == x and j == y:
+              return k
+          
+          for a, b in dirs:
+              ni, nj = i + a, j + b
+              if (ni, nj) not in vis:
+                  vis.add((ni, nj))
+                  q.append((ni, nj, k + 1))
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/nearest-exit-from-entrance-in-maze/" target="_blank">https://leetcode.com/problems/nearest-exit-from-entrance-in-maze/</a></p> 
+<pre>
+class Solution:
+  def nearestExit(self, maze: List[List[str]], entrance: List[int]) -> int:
+      m, n = len(maze), len(maze[0])
+      q = deque()
+      q.append((entrance[0], entrance[1], 0))
+      vis = {(entrance[0], entrance[1])}
+      
+      while q:
+          i, j, k = q.popleft()
+          if (i == 0 or j == 0 or i == m - 1 or j == n - 1) and [i, j] != entrance:
+              return k
+          for ni, nj in [(i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1)]:
+              if 0 <= ni < m and 0 <= nj < n and (ni, nj) not in vis and maze[ni][nj] == '.':
+                  q.append((ni, nj, k + 1))
+                  vis.add((ni, nj))
+                  
+      return -1
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/minimum-operations-to-convert-number/" target="_blank">https://leetcode.com/problems/minimum-operations-to-convert-number/</a></p> 
+<pre>
+class Solution:
+  def minimumOperations(self, nums: List[int], start: int, goal: int) -> int:
+      q = deque()
+      q.append((start, 0))
+      vis = {start}
+      
+      while q:
+          u, k = q.popleft()
+          if u == goal:
+              return k
+          for x in nums:
+              for v in [u + x, u - x, u ^ x]:
+                  if v == goal:
+                      return k + 1
+                  if 0 <= v <= 1000 and v not in vis:
+                      q.append((v, k + 1))
+                      vis.add(v)
+      return -1
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/01-matrix/" target="_blank">https://leetcode.com/problems/01-matrix/</a></p> 
+<pre>
+class Solution:
+  def updateMatrix(self, mat: List[List[int]]) -> List[List[int]]:
+      m, n = len(mat), len(mat[0])
+      g = [[0] * n for _ in range(m)]
+      
+      q = deque()
+      vis = set()
+      
+      for i in range(m):
+          for j in range(n):
+              if mat[i][j] == 0:
+                  vis.add((i, j))
+                  q.append((i, j, 0))
+                  
+      while q:
+          i, j, k = q.popleft()
+          for ni, nj in [(i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1)]:
+              if 0 <= ni < m and 0 <= nj < n and (ni, nj) not in vis:
+                  vis.add((ni, nj))
+                  q.append((ni, nj, k + 1))
+                  g[ni][nj] = k + 1
+                  
+      return g
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/map-of-highest-peak/" target="_blank">https://leetcode.com/problems/map-of-highest-peak/</a></p> 
+<pre>
+class Solution:
+  def highestPeak(self, isWater: List[List[int]]) -> List[List[int]]:
+      m, n = len(isWater), len(isWater[0])
+      g = [[0] * n for _ in range(m)]
+      q = deque()
+      vis = set()
+      
+      for i in range(m):
+          for j in range(n):
+              if isWater[i][j] == 1:
+                  q.append((i, j, 0))
+                  vis.add((i, j))
+      
+      while q:
+          i, j, k = q.popleft()
+          for ni, nj in [(i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1)]:
+              if 0 <= ni < m and 0 <= nj < n and (ni, nj) not in vis:
+                  g[ni][nj] = k + 1
+                  q.append((ni, nj, k + 1))
+                  vis.add((ni, nj))
+                  
+      return g
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/walls-and-gates/" target="_blank">https://leetcode.com/problems/walls-and-gates/</a></p> 
+<pre>
+class Solution:
+  def wallsAndGates(self, rooms: List[List[int]]) -> None:
+      m, n = len(rooms), len(rooms[0])
+      q = deque()
+      vis = set()
+      
+      for i in range(m):
+          for j in range(n):
+              if rooms[i][j] == 0:
+                  vis.add((i, j))
+                  q.append((i, j, 0))
+              elif rooms[i][j] == -1:
+                  vis.add((i, j))
+                  
+      while q:
+          i, j, k = q.popleft()
+          for ni, nj in [(i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1)]:
+              if 0 <= ni < m and 0 <= nj < n and (ni, nj) not in vis:
+                  vis.add((ni, nj))
+                  q.append((ni, nj, k + 1))
+                  rooms[ni][nj] = k + 1
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/as-far-from-land-as-possible/" target="_blank">https://leetcode.com/problems/as-far-from-land-as-possible/</a></p> 
+<pre>
+class Solution:
+  def maxDistance(self, grid: List[List[int]]) -> int:
+      m, n = len(grid), len(grid[0])
+      q = deque()
+      vis = set()
+      
+      for i in range(m):
+          for j in range(n):
+              if grid[i][j] == 1:
+                  q.append((i, j, 0))
+                  vis.add((i, j))
+      
+      ans = -1
+      while q:
+          i, j, k = q.popleft()
+          if grid[i][j] == 0:
+              ans = max(ans, k)
+              
+          for ni, nj in [(i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1)]:
+              if 0 <= ni < m and 0 <= nj < n and (ni, nj) not in vis:
+                  q.append((ni, nj, k + 1))
+                  vis.add((ni, nj))
+      return ans
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/minimum-genetic-mutation/" target="_blank">https://leetcode.com/problems/minimum-genetic-mutation/</a></p> 
+<pre>
+class Solution:
+  def minMutation(self, start: str, end: str, bank: List[str]) -> int:
+      q = deque()
+      q.append((start, 0))
+      
+      vis = set()
+      vis.add(start)
+      
+      bank = set(bank)
+      if end in vis:
+          return -1
+      
+      while q:
+          s, k = q.popleft()
+          if s == end:
+              return k
+          s = list(s)
+          for i in range(8):
+              
+              t = s[i]
+              for c in {'A', 'C', 'G', 'T'} - {t}:
+                  s[i] = c
+                  ns = ''.join(s)
+                  if ns not in vis and ns in bank:
+                      vis.add(ns)
+                      q.append((ns, k + 1))
+              s[i] = t
+              
+      return -1
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/all-nodes-distance-k-in-binary-tree/" target="_blank">https://leetcode.com/problems/all-nodes-distance-k-in-binary-tree/</a></p> 
+<pre>
+class Solution:
+  def distanceK(self, root: TreeNode, target: TreeNode, k: int) -> List[int]:
+      def build(root, p):
+          par[root] = p
+          if root.left:
+              build(root.left, root)
+          if root.right:
+              build(root.right, root)
+          
+      par = defaultdict(TreeNode)
+      build(root, None)
+      
+      ans = []
+      q = deque()
+      q.append([target, 0])
+      vis = {target}
+      
+      while q:
+          cur, step = q.popleft()
+          if step == k:
+              ans.append(cur.val)
+              continue
+          if cur.left and cur.left not in vis:
+              q.append([cur.left, step + 1])
+              vis.add(cur.left)
+          if cur.right and cur.right not in vis:
+              q.append([cur.right, step + 1])
+              vis.add(cur.right)
+          if par[cur] and par[cur] not in vis:
+              q.append([par[cur], step + 1])
+              vis.add(par[cur])
+              
+      return ans
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/snakes-and-ladders/" target="_blank">https://leetcode.com/problems/snakes-and-ladders/</a></p> 
+<pre>
+class Solution:
+  def snakesAndLadders(self, board: List[List[int]]) -> int:
+      def pos(x):
+          r, c = (x - 1) // n, (x - 1) % n
+          if r % 2 == 1:
+              c = n - 1 - c
+          return (n - 1 - r, c)
+      
+      n = len(board)
+      q = deque()
+      q.append([1, 0])
+      vis = {1}
+      
+      if board[n - 1][0] == n * n:
+          return 1
+      
+      while q:
+          x, k = q.popleft()
+          if x == n * n:
+              return k
+          for i in range(1, 7):
+              nx = x + i
+              ni, nj = pos(nx)
+              if nx <= n * n:
+                  if board[ni][nj] != -1:
+                      nx = board[ni][nj]
+                  if nx not in vis:
+                      vis.add(nx)
+                      q.append([nx, k + 1])
+                          
+      return -1
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/web-crawler/" target="_blank">https://leetcode.com/problems/web-crawler/</a></p> 
+<pre>
+class Solution:
+  def crawl(self, startUrl: str, htmlParser: 'HtmlParser') -> List[str]:
+      p = startUrl.find('/', 7)
+      host = startUrl if p == -1 else startUrl[ : p]
+      a = [startUrl]
+      ans = {startUrl}
+      
+      while a:
+          b = []
+          for s in a:
+              for url in htmlParser.getUrls(s):
+                  if url not in ans and url.startswith(host):
+                      ans.add(url)
+                      b.append(url)
+          a = b
+          
+      return list(ans)
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/water-and-jug-problem/" target="_blank">https://leetcode.com/problems/water-and-jug-problem/</a></p> 
+<pre>
+class Solution:
+  def canMeasureWater(self, x: int, y: int, t: int) -> bool:
+      q = deque()
+      q.append((x, y, 0))
+      vis = {(x, y)}
+      
+      while q:
+          a, b, k = q.popleft()
+          if a + b == t:
+              return True
+          for na, nb in [(x, b), (a, y), (0, b), (a, 0), (min(x, a + b), max(0, a + b - x)), (max(0, a + b - y), min(y, a + b))]:
+              if (na, nb) not in vis:
+                  q.append((na, nb, k + 1))
+                  vis.add((na, nb))
+      return False
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/get-watched-videos-by-your-friends/" target="_blank">https://leetcode.com/problems/get-watched-videos-by-your-friends/</a></p> 
+<pre>
+class Solution:
+  def watchedVideosByFriends(self, watchedVideos: List[List[str]], friends: List[List[int]], id: int, level: int) -> List[str]:
+      ans = Counter()
+      q = deque()
+      q.append((id, 0))
+      vis = {id}
+      
+      while q:
+          u, k = q.popleft()
+          if k == level:
+              ans += Counter(watchedVideos[u])
+              continue
+          for v in friends[u]:
+              if v not in vis:
+                  vis.add(v)
+                  q.append((v, k + 1))
+      return [k for k, v in sorted(ans.items(), key = lambda x: (x[1], x[0]))]
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/shortest-path-with-alternating-colors/" target="_blank">https://leetcode.com/problems/shortest-path-with-alternating-colors/</a></p> 
+<pre>
+class Solution:
+  def shortestAlternatingPaths(self, n: int, redEdges: List[List[int]], blueEdges: List[List[int]]) -> List[int]:
+      red, blue = defaultdict(list), defaultdict(list)
+      
+      for u, v in redEdges:
+          red[u].append(v)
+      for u, v in blueEdges:
+          blue[u].append(v)
+      
+      ans = [-1] * n
+      q = deque()
+      q.append((0, '', 0))
+      redVis, blueVis = {0}, {0}
+      
+      while q:
+          u, c, k = q.popleft()
+          if ans[u] == -1 or ans[u] > k:
+              ans[u] = k
+          if c != 'r':
+              for v in red[u]:
+                  if v not in redVis:
+                      q.append((v, 'r', k + 1))
+                      redVis.add(v)
+          if c != 'b':
+              for v in blue[u]:
+                  if v not in blueVis:
+                      q.append((v, 'b', k + 1))
+                      blueVis.add(v)
+          
+      return ans
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/open-the-lock/" target="_blank">https://leetcode.com/problems/open-the-lock/</a></p> 
+<pre>
+class Solution:
+  def openLock(self, deadends: List[str], target: str) -> int:
+      vis = set(deadends)
+      
+      if '0000' in vis:
+          return -1
+      
+      q = deque()
+      q.append(('0000', 0))
+      vis.add('0000')
+      
+      while q:
+          s, k = q.popleft()
+          if s == target:
+              return k
+          
+          for d in [-1, 1]:
+              s = list(s)
+              for i in range(4):
+                  t = s[i]
+                  
+                  s[i] = str((int(s[i]) + d) % 10)
+                  ns = ''.join(s)
+                  if ns not in vis:
+                      vis.add(ns)
+                      q.append((ns, k + 1))
+  
+                  s[i] = t
+              
+      return -1
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/stepping-numbers/" target="_blank">https://leetcode.com/problems/stepping-numbers/</a></p> 
+<pre>
+class Solution:
+  def countSteppingNumbers(self, low: int, high: int) -> List[int]:
+      ans = []
+      if low == 0:
+          ans.append(0)
+      
+      q = deque()
+      for i in range(1, min(10, high + 1)):
+          q.append(i)
+      
+      while q:
+          u = q.popleft()
+          if u > high:
+              break
+          if u >= low:
+              ans.append(u)
+          
+          if u % 10 - 1 >= 0:
+              q.append(u * 10 + u % 10 - 1)
+          if u % 10 + 1 <= 9:
+              q.append(u * 10 + u % 10 + 1)
+              
+      return ans
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/numbers-with-same-consecutive-differences/" target="_blank">https://leetcode.com/problems/numbers-with-same-consecutive-differences/</a></p> 
+<pre>
+class Solution:
+  def numsSameConsecDiff(self, n: int, k: int) -> List[int]:
+      ans = []
+      a = [_ for _ in range(1, 10)]
+      
+      while a:
+          b = []
+          for x in a:
+              if len(str(x)) == n:
+                  ans.append(x)
+                  continue
+              
+              if k == 0:
+                  a.append(x * 10 + x % 10)
+              else:
+                  if x % 10 - k >= 0:
+                      a.append(x * 10 + x % 10 - k)
+                  if x % 10 + k <= 9:
+                      a.append(x * 10 + x % 10 + k)
+          a = b           
+      return ans
+</pre>
+
+<p class="text-center text-muted"><a href="https://leetcode.com/problems/minimum-jumps-to-reach-home/" target="_blank">https://leetcode.com/problems/minimum-jumps-to-reach-home/</a></p> 
+<pre>
+class Solution:
+  def minimumJumps(self, forbidden: List[int], a: int, b: int, x: int) -> int:
+      q = deque()
+      q.append((0, 1, 0))
+      vis = {(0, 1)}
+      
+      for v in forbidden:
+          vis.add((v, 0))
+          vis.add((v, 1))
+          
+      while q:
+          p, back, k = q.popleft()
+          if p == x:
+              return k
+          
+          if p + a <= 6005 and (p + a, 1) not in vis:
+              q.append((p + a, 1, k + 1))
+              vis.add((p + a, 1))
+              
+          if back and p - b >= 0 and (p - b, 0) not in vis:
+              q.append((p - b, 0, k + 1))
+              vis.add((p - b, 0))
+              
+      return -1
+</pre>
+
 
 </div>
       </div>
